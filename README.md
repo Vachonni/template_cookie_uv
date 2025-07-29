@@ -23,5 +23,15 @@ This repository is a Cookiecutter template for quickly bootstrapping a new Pytho
    cd <project_slug>
    ```
 
+4. **Create repository and connect it to GitHub**:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin git@github.com:<your-username>/<project_slug>.git
+   git push -u origin main
+   ```
+
 ---
 For more information, see the [Cookiecutter documentation](https://cookiecutter.readthedocs.io/en/latest/).
