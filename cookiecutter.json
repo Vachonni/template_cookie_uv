@@ -1,0 +1,10 @@
+{
+    "project_name": "Mon Nouveau Projet",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') }}",
+    "package_name": "{{ cookiecutter.project_slug.replace('-', '_') }}",
+    "author_name": "Nicholas Vachon",
+    "author_email": "nicholasvachon@hotmail.com",
+    "python_version": "3.13",
+    "description": "Description du projet",
+    "ghcr": "ghcr.io/vachonni"
+}
