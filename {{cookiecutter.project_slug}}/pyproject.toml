@@ -1,24 +1,23 @@
 [build-system]
-requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
+requires = ["hatchling >= 1.26"]
 
 [project]
-name = "{{cookiecutter.project_slug}}"
-version = "0.1.0"
-description = "{{cookiecutter.description}}"
-authors = [{ name = "nicholas" , email = "nicholasvachon@hotmail.com"}]
-requires-python = ">={{cookiecutter.python_version}}"
+authors = [{name = "nicholas", email = "nicholasvachon@hotmail.com"}]
 dependencies = [
-    "pydantic>=2.11.7",
-    "pydantic-settings>=2.10.1",
+  "pydantic>=2.11.7",
+  "pydantic-settings>=2.10.1",
 ]
-
+description = "{{cookiecutter.description}}"
+name = "{{cookiecutter.project_slug}}"
+requires-python = ">={{cookiecutter.python_version}}"
+version = "0.1.0"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.4.1",
+  "pytest>=8.4.1",
+  "pytest-cov>=6.2.1",
 ]
 
-
 [tool.hatch.build.targets.wheel]
-    packages = ["src/{{cookiecutter.package_name}}"]
+packages = ["src/{{cookiecutter.package_name}}"]
