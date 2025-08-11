@@ -1,7 +1,8 @@
 """Settings for project {{cookiecutter.project_name}}"""
 
+
 import os
-from enum import Enum
+from {{cookiecutter.package_name}}.config.schemas import AppEnvEnum
 
 from pydantic import Field
 from pydantic_settings import BaseSettings
@@ -9,11 +10,7 @@ from pydantic_settings import BaseSettings
 env_file: str = f".env.{os.getenv('APP_ENV', 'dev')}"
 
 
-# Enum for allowed APP_ENV values
-class AppEnvEnum(str, Enum):
-    DEV = "dev"
-    PROD = "prod"
-    STAGING = "staging"
+
 
 
 class Settings(BaseSettings):
