@@ -36,7 +36,7 @@ docker-run-staging:
 	docker pull $(GITHUB_REGISTRY)/{{cookiecutter.project_slug}}:staging
 	docker run \
 	  --env-file .env.staging \
-	  -p 8005:8000 \
+	  -p {{cookiecutter.staging_host_port}}:{{cookiecutter.app_port}} \
 # 	  -v /Users/nicholas/Databases:/app/DatabasesMount \
 	  $(GITHUB_REGISTRY)/{{cookiecutter.project_slug}}:staging
 
@@ -44,6 +44,6 @@ docker-run-prod:
 	docker pull $(GITHUB_REGISTRY)/{{cookiecutter.project_slug}}:prod
 	docker run \
 	  --env-file .env.prod \
-	  -p 8009:8000 \
+	  -p {{cookiecutter.prod_host_port}}:{{cookiecutter.app_port}} \
 # 	  -v /Users/nicholas/Databases:/app/DatabasesMount \
 	  $(GITHUB_REGISTRY)/{{cookiecutter.project_slug}}:prod

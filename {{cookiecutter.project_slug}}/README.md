@@ -32,13 +32,14 @@ uv sync
 
 ## Port Number Convention by Environment
 
-For clarity and to avoid conflicts, this project uses a port pattern based on the environment:
+Default port mappings (host:container) are configurable via cookiecutter variables:
 
-- **Development:** Ports ending with `1` (e.g., `8001`)
-- **Staging:** Ports ending with `5` (e.g., `8005`)
-- **Production:** Ports ending with `9` (e.g., `8009`)
+| Environment | Host Port Variable              | Default | Container Port (app_port) |
+|-------------|---------------------------------|---------|---------------------------|
+| Dev         | dev_host_port                   | {{cookiecutter.dev_host_port}} | {{cookiecutter.app_port}} |
+| Staging     | staging_host_port               | {{cookiecutter.staging_host_port}} | {{cookiecutter.app_port}} |
+| Production  | prod_host_port                  | {{cookiecutter.prod_host_port}} | {{cookiecutter.app_port}} |
 
-This convention helps quickly identify which environment is running based on the port number. 
 
 ## Running Tests
 

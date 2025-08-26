@@ -29,7 +29,7 @@ jobs:
       environment: staging
       image_tag: staging
       deploy: true
-      port: '8005:8000'
+      port: '{{cookiecutter.staging_host_port}}:{{cookiecutter.app_port}}'
       container_name: '{{cookiecutter.project_slug}}-staging'
 
   production:
@@ -39,5 +39,5 @@ jobs:
       environment: prod
       image_tag: prod
       deploy: true
-      port: '8009:8000'
+      port: '{{cookiecutter.prod_host_port}}:{{cookiecutter.app_port}}'
       container_name: '{{cookiecutter.project_slug}}-prod'

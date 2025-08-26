@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8001:8000"
+      - "{{cookiecutter.dev_host_port}}:{{cookiecutter.app_port}}"
     # volumes:
     #   - /Users/nicholas/Databases:/app/DatabasesMount
     env_file:
-      - .env.dev
+      - .env

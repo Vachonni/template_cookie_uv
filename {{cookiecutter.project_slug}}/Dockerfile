@@ -27,7 +27,7 @@ RUN useradd -m appuser \
 USER appuser
 
 # Expose port (adjust if your app uses a different port)
-EXPOSE 8000
+EXPOSE {{cookiecutter.app_port}}
 
 # Run (something like: CMD ["uv", "run", ..........])
 

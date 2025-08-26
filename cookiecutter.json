@@ -6,5 +6,9 @@
     "author_email": "nicholasvachon@hotmail.com",
     "python_version": "3.13",
     "description": "Description du projet",
-    "ghcr": "ghcr.io/vachonni"
+    "ghcr": "ghcr.io/vachonni",
+    "app_port": "8000",
+    "dev_host_port": "8001",
+    "staging_host_port": "8005",
+    "prod_host_port": "8009"
 }

@@ -33,5 +33,15 @@ This repository is a Cookiecutter template for quickly bootstrapping a new Pytho
    git push -u origin main
    ```
 
+## Port Number Convention by Environment
+
+Default port mappings (host:container) are configurable via cookiecutter variables:
+
+| Environment | Host Port Variable              | Default | Container Port (app_port) |
+|-------------|---------------------------------|---------|---------------------------|
+| Dev         | dev_host_port                   | {{cookiecutter.dev_host_port}} | {{cookiecutter.app_port}} |
+| Staging     | staging_host_port               | {{cookiecutter.staging_host_port}} | {{cookiecutter.app_port}} |
+| Production  | prod_host_port                  | {{cookiecutter.prod_host_port}} | {{cookiecutter.app_port}} |
+
 ---
 For more information, see the [Cookiecutter documentation](https://cookiecutter.readthedocs.io/en/latest/).
