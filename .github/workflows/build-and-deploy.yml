@@ -1,0 +1,64 @@
+# Reusable workflow for building, testing, and optionally deploying.
+name: Build and (Optional) Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      image_tag:
+        required: true
+        type: string
+      deploy:
+        required: false
+        type: boolean
+        default: false
+      container_name:
+        required: false
+        type: string
+      port:
+        required: false
+        type: string
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    outputs:
+      image: ${{ steps.image.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set image name
+        id: image
+        run: echo "image={{cookiecutter.ghcr}}/{{cookiecutter.project_slug}}:${{ inputs.image_tag }}" >> $GITHUB_OUTPUT
+
+      - name: Python Build and Test
+        uses: ./.github/actions/python-build-test
+        with:
+          python-version: '{{cookiecutter.python_version}}'
+
+      - name: Build & Push Image
+        uses: ./.github/actions/build-to-ghcr
+        with:
+          image: ${{ steps.image.outputs.image }}
+          extra_tag: ${{ github.sha }}
+          build_context: '{{cookiecutter.project_slug}}'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_actor: ${{ github.actor }}
+
+  deploy:
+    if: ${{ inputs.deploy == true }}
+    needs: build-test
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Deploy container
+        uses: ./.github/actions/deploy-docker-local
+        with:
+          image: ${{ needs.build-test.outputs.image }}
+          name: ${{ inputs.container_name }}
+          port: ${{ inputs.port }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_actor: ${{ github.actor }}

@@ -1,0 +1,64 @@
+name: 'Deploy Docker Container'
+description: 'Deploys (or updates) a Docker container locally/self-hosted.'
+
+inputs:
+  image:
+    description: 'Docker image to run'
+    required: true
+  name:
+    description: 'Container name'
+    required: true
+  port:
+    description: 'Port mapping host:container (e.g. 8001:8000)'
+    required: true
+  github_token:
+    description: 'GitHub token for registry login'
+    required: true
+  github_actor:
+    description: 'GitHub actor for registry login'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Log in to GHCR
+      shell: bash
+      run: |
+        echo "${{ inputs.github_token }}" | docker login ghcr.io -u "${{ inputs.github_actor }}" --password-stdin
+
+    - name: Pull image
+      shell: bash
+      run: |
+        docker pull "${{ inputs.image }}"
+
+    - name: Stop existing container (if any)
+      shell: bash
+      run: |
+        if docker ps -q -f name=${{ inputs.name }} | grep -q .; then
+          docker stop ${{ inputs.name }}
+        fi
+        if docker ps -aq -f name=${{ inputs.name }} | grep -q .; then
+          docker rm ${{ inputs.name }}
+        fi
+
+    - name: Run container
+      shell: bash
+      run: |
+        docker run -d \
+          --name ${{ inputs.name }} \
+          -e APP_ENV \
+          -p ${{ inputs.port }} \
+          --restart unless-stopped \
+          "${{ inputs.image }}"
+
+    - name: Verify container is running
+      shell: bash
+      run: |
+        sleep 3
+        if docker ps -q -f name=${{ inputs.name }} | grep -q .; then
+          echo "✅ Container ${{ inputs.name }} is running"
+        else
+          echo "❌ Container ${{ inputs.name }} failed to start"
+          docker logs ${{ inputs.name }} || true
+          exit 1
+        fi

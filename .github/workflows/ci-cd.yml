@@ -1,0 +1,43 @@
+# CI/CD workflow for the {{cookiecutter.project_name}} project.
+name: '{{cookiecutter.project_name}} CI/CD'
+
+on:
+  push:
+    branches: [staging, main]
+    paths:
+      - '{{cookiecutter.project_slug}}/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [staging, main]
+    paths:
+      - '{{cookiecutter.project_slug}}/**'
+      - '.github/workflows/**'
+
+jobs:
+  pr-tests:
+    if: ${{ github.event_name == 'pull_request' }}
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      environment: staging
+      image_tag: staging
+      deploy: false
+
+  staging:
+    if: ${{ github.ref == 'refs/heads/staging' && github.event_name == 'push' }}
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      environment: staging
+      image_tag: staging
+      deploy: true
+      port: '8005:8000'
+      container_name: '{{cookiecutter.project_slug}}-staging'
+
+  production:
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      environment: prod
+      image_tag: prod
+      deploy: true
+      port: '8009:8000'
+      container_name: '{{cookiecutter.project_slug}}-prod'

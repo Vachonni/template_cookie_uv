@@ -1,0 +1,39 @@
+name: 'Build and Push Docker Image to GHCR'
+description: 'Builds a Docker image and pushes it to GitHub Container Registry (GHCR)'
+inputs:
+  image:
+    description: 'Base Docker image name (including tag)'
+    required: true
+  extra_tag:
+    description: 'Optional extra tag (e.g. commit SHA)'
+    required: false
+  build_context:
+    description: 'Docker build context directory'
+    required: true
+  github_token:
+    description: 'GitHub token for registry login'
+    required: true
+  github_actor:
+    description: 'GitHub actor for registry login'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Log in to GHCR
+      shell: bash
+      run: |
+        echo "${{ inputs.github_token }}" | docker login ghcr.io -u "${{ inputs.github_actor }}" --password-stdin
+    - name: Build image
+      shell: bash
+      run: |
+        set -euo pipefail
+        if [ -n "${{ inputs.extra_tag }}" ]; then
+          docker build -t "${{ inputs.image }}" -t "${{ inputs.image }}-${{ inputs.extra_tag }}" "${{ inputs.build_context }}"
+        else
+          docker build -t "${{ inputs.image }}" "${{ inputs.build_context }}"
+        fi
+    - name: Push image
+      shell: bash
+      run: |
+        docker push "${{ inputs.image }}"
+        if [ -n "${{ inputs.extra_tag }}" ]; then docker push "${{ inputs.image }}-${{ inputs.extra_tag }}"; fi
