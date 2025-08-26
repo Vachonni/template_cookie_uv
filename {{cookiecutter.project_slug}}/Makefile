@@ -12,12 +12,18 @@ GITHUB_REGISTRY={{cookiecutter.project_name}}
 
 help:
 	@echo "Available targets:"
+	@echo "  run-runner        Run the GitHub Actions self-hosted runner."
 	@echo "  pytest            Run tests using pytest."
 	@echo "  docker-build-dev  Build the dev Docker image only (does not run)."
 	@echo "  docker-run-dev    Run the dev Docker container (does not rebuild)."
 	@echo "  docker-up-dev     Build and run the dev Docker container."
 	@echo "  docker-run-staging  Pull and run the staging Docker image with .env.staging."
 	@echo "  docker-run-prod     Pull and run the prod Docker image with .env.prod."
+
+
+run-runner: # Run the GitHub Actions self-hosted runner
+	~/actions-runner/run.sh
+	# Think about service management when serious production with ~/actions-runner/svc.sh install and ~/actions-runner/svc.sh start. Details with ~/actions-runner/svc.sh help
 
 pytest:
 	uv run pytest
