@@ -7,10 +7,8 @@ from {{cookiecutter.package_name}}.config.schemas import AppEnvEnum
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
-env_file: str = f".env.{os.getenv('APP_ENV', 'dev')}"
-
-
-
+# env_file: str = f".env.{os.getenv('APP_ENV', 'dev')}"
+env_file: str = ".env"
 
 
 class Settings(BaseSettings):
