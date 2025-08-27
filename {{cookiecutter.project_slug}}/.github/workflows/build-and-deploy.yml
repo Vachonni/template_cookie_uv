@@ -24,15 +24,15 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: "{% raw %}${{ inputs.environment }}{% endraw %}"
     outputs:
-      image: ${{ steps.image.outputs.image }}
+      image: "{% raw %}${{ steps.image.outputs.image }}{% endraw %}"
     steps:
       - uses: actions/checkout@v4
 
       - name: Set image name
         id: image
-        run: echo "image={{cookiecutter.ghcr}}/{{cookiecutter.project_slug}}:${{ inputs.image_tag }}" >> $GITHUB_OUTPUT
+        run: "echo \"image={{cookiecutter.ghcr}}/{{cookiecutter.project_slug}}:{% raw %}${{ inputs.image_tag }}{% endraw %}\" >> $GITHUB_OUTPUT"
 
       - name: Python Build and Test
         uses: ./.github/actions/python-build-test
@@ -42,23 +42,23 @@ jobs:
       - name: Build & Push Image
         uses: ./.github/actions/build-to-ghcr
         with:
-          image: ${{ steps.image.outputs.image }}
-          extra_tag: ${{ github.sha }}
+          image: "{% raw %}${{ steps.image.outputs.image }}{% endraw %}"
+          extra_tag: "{% raw %}${{ github.sha }}{% endraw %}"
           build_context: '{{cookiecutter.project_slug}}'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_actor: ${{ github.actor }}
+          github_token: "{% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}"
+          github_actor: "{% raw %}${{ github.actor }}{% endraw %}"
 
   deploy:
-    if: ${{ inputs.deploy == true }}
+    if: "{% raw %}${{ inputs.deploy == true }}{% endraw %}"
     needs: build-test
     runs-on: self-hosted
-    environment: ${{ inputs.environment }}
+    environment: "{% raw %}${{ inputs.environment }}{% endraw %}"
     steps:
       - name: Deploy container
         uses: ./.github/actions/deploy-docker-local
         with:
-          image: ${{ needs.build-test.outputs.image }}
-          name: ${{ inputs.container_name }}
-          port: ${{ inputs.port }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_actor: ${{ github.actor }}
+          image: "{% raw %}${{ needs.build-test.outputs.image }}{% endraw %}"
+          name: "{% raw %}${{ inputs.container_name }}{% endraw %}"
+          port: "{% raw %}${{ inputs.port }}{% endraw %}"
+          github_token: "{% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}"
+          github_actor: "{% raw %}${{ github.actor }}{% endraw %}"

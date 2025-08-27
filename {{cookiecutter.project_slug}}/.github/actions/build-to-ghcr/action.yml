@@ -22,18 +22,18 @@ runs:
     - name: Log in to GHCR
       shell: bash
       run: |
-        echo "${{ inputs.github_token }}" | docker login ghcr.io -u "${{ inputs.github_actor }}" --password-stdin
+        echo "{% raw %}${{ inputs.github_token }}{% endraw %}" | docker login ghcr.io -u "{% raw %}${{ inputs.github_actor }}{% endraw %}" --password-stdin
     - name: Build image
       shell: bash
       run: |
         set -euo pipefail
-        if [ -n "${{ inputs.extra_tag }}" ]; then
-          docker build -t "${{ inputs.image }}" -t "${{ inputs.image }}-${{ inputs.extra_tag }}" "${{ inputs.build_context }}"
+        if [ -n "{% raw %}${{ inputs.extra_tag }}{% endraw %}" ]; then
+          docker build -t "{% raw %}${{ inputs.image }}{% endraw %}" -t "{% raw %}${{ inputs.image }}{% endraw %}-{% raw %}${{ inputs.extra_tag }}{% endraw %}" "{% raw %}${{ inputs.build_context }}{% endraw %}"
         else
-          docker build -t "${{ inputs.image }}" "${{ inputs.build_context }}"
+          docker build -t "{% raw %}${{ inputs.image }}{% endraw %}" "{% raw %}${{ inputs.build_context }}{% endraw %}"
         fi
     - name: Push image
       shell: bash
       run: |
-        docker push "${{ inputs.image }}"
-        if [ -n "${{ inputs.extra_tag }}" ]; then docker push "${{ inputs.image }}-${{ inputs.extra_tag }}"; fi
+  docker push "{% raw %}${{ inputs.image }}{% endraw %}"
+  if [ -n "{% raw %}${{ inputs.extra_tag }}{% endraw %}" ]; then docker push "{% raw %}${{ inputs.image }}{% endraw %}-{% raw %}${{ inputs.extra_tag }}{% endraw %}"; fi

@@ -15,7 +15,7 @@ on:
 
 jobs:
   pr-tests:
-    if: ${{ github.event_name == 'pull_request' }}
+    if: "{% raw %}${{ github.event_name == 'pull_request' }}{% endraw %}"
     uses: ./.github/workflows/build-and-deploy.yml
     with:
       environment: staging
@@ -23,7 +23,7 @@ jobs:
       deploy: false
 
   staging:
-    if: ${{ github.ref == 'refs/heads/staging' && github.event_name == 'push' }}
+    if: "{% raw %}${{ github.ref == 'refs/heads/staging' && github.event_name == 'push' }}{% endraw %}"
     uses: ./.github/workflows/build-and-deploy.yml
     with:
       environment: staging
@@ -33,7 +33,7 @@ jobs:
       container_name: '{{cookiecutter.project_slug}}-staging'
 
   production:
-    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    if: "{% raw %}${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}{% endraw %}"
     uses: ./.github/workflows/build-and-deploy.yml
     with:
       environment: prod
