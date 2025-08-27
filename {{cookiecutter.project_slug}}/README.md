@@ -66,9 +66,9 @@ make run-runner
 
 ## Note about GitHub Actions expressions in the template
 
-This template contains GitHub Actions expressions like `${{ github.actor }}` inside workflow
+This template contains GitHub Actions expressions like {% raw %}`${{ github.actor }}`{% endraw %} inside workflow
 and composite action YAML files. Cookiecutter renders templates using Jinja, which also
-uses `{{ ... }}` style delimiters. To avoid Jinja attempting to evaluate GitHub Actions
+uses {% raw %}`{{ ... }}`{% endraw %} style delimiters. To avoid Jinja attempting to evaluate GitHub Actions
 expressions during template rendering, those expressions are wrapped with Jinja raw
 blocks, for example:
 
