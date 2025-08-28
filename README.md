@@ -35,9 +35,9 @@ This repository is a Cookiecutter template for quickly bootstrapping a new Pytho
 
 ## Note about GitHub Actions expressions in the template
 
-This template contains GitHub Actions expressions like {% raw %}`${{ github.actor }}`{% endraw %} inside workflow and composite action YAML files. Cookiecutter renders templates using Jinja, which also uses {% raw %}`{{ ... }}`{% endraw %} style delimiters. To avoid Jinja attempting to evaluate GitHub Actions expressions during template rendering, those expressions are wrapped with Jinja raw blocks, for example:
+This template contains GitHub Actions expressions like `${{ github.actor }}` inside workflow and composite action YAML files. Cookiecutter renders templates using Jinja, which also uses `{{ ... }}` style delimiters. To avoid Jinja attempting to evaluate GitHub Actions expressions during template rendering, those expressions are wrapped with Jinja raw blocks, for example:
 
-   "{{ '{% raw %}${{ github.actor }}{% endraw %}' }}"
+   `{% raw %}${{ github.actor }}{% endraw %}`
 
 That preserves the original GitHub Actions expression in the generated repository so
 GitHub can evaluate it at runtime. Do not remove the raw blocks when editing these
