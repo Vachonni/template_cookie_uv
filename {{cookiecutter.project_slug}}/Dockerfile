@@ -17,7 +17,7 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync
 
 # Copy source code after dependencies for better caching
-COPY src/{{cookiecutter.package_name}} ./{{cookiecutter.package_name}}
+COPY src/{{cookiecutter.package_name}} ./src/{{cookiecutter.package_name}}
 
 # Create a non-root user
 RUN useradd -m appuser \
@@ -29,5 +29,4 @@ USER appuser
 # Expose port (adjust if your app uses a different port)
 EXPOSE {{cookiecutter.app_port}}
 
-# Run (something like: CMD ["uv", "run", ..........])
-
+# Run something like: CMD or ENTRYPOINT ["uv", "run", "python", "src/{{cookiecutter.package_name}}/main.py"]
