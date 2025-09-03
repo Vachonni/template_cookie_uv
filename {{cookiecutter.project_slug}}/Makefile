@@ -30,13 +30,13 @@ pytest:
 
 docker-build-dev: 
 	# Build the Docker image for development
-	docker-compose build {{cookiecutter.project_slug}}
+	docker compose build {{cookiecutter.project_slug}}:dev
 docker-run-dev: 
 	# Note: This will not rebuild the image, use `docker-build-dev` first if
-	docker-compose up --no-build {{cookiecutter.project_slug}}
+	docker compose up --no-build {{cookiecutter.project_slug}}:dev
 docker-up-dev: 
 	# This will build the image and start the container
-	docker-compose up --build {{cookiecutter.project_slug}}
+	docker compose up --build {{cookiecutter.project_slug}}:dev
 
 # docker-run-staging: 
 # 	docker pull $(GITHUB_REGISTRY)/{{cookiecutter.project_slug}}:staging
