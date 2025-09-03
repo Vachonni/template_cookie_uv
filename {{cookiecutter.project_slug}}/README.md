@@ -19,7 +19,7 @@ More info at:
 To create a virtual environment and install all dependencies:
 
 ```sh
-uv sync --dev
+uv sync --extra dev
 ```
 
 For production, use:
