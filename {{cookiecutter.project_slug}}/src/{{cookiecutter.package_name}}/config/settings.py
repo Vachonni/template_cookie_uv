@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     app_env: AppEnvEnum = Field(
         default=AppEnvEnum.DEV
     )  # Field necesary for pytest in Docker
+    root_dir: str = Field(
+        default=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
+    )  # Root directory of the project
 
     model_config = {
         "env_file": env_file,
